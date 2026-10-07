@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.tsx';
+import HeroSwitch from '../components/HeroSwitch.tsx';
+import PersonaTransition from '../components/PersonaTransition.tsx';
+import SectionReveal from '../components/SectionReveal.tsx';
+
+const base = '/website';
+---
+
+<BaseLayout title="Onur Gürsoy — Drummer & AI Engineer" persona="music">
+  <Nav client:load />
+  <PersonaTransition client:load />
+  
+  <!-- Hero Split Screen -->
+  <HeroSwitch client:load />
+  
+  <!-- Brief Dual Intro -->
+  <section class="relative max-w-6xl mx-auto px-6 py-24">
+    <SectionReveal client:visible>
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-5xl font-bold mb-4">Two Worlds. One Artist.</h2>
+        <p class="text-[var(--text-secondary)] max-w-2xl mx-auto text-lg">
+          By day, I build intelligent systems with machine learning. By night, I'm behind the kit 
+          driving the pulse of live music. Choose your dimension.
+        </p>
+      </div>
+    </SectionReveal>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+      <SectionReveal client:visible direction="left" delay={0.1}>
+        <a href={`${base}/music/`} class="group block relative overflow-hidden rounded-2xl border border-white/10 hover:border-red-500/30 transition-all duration-500">
+          <div class="absolute inset-0 bg-gradient-to-br from-red-950/50 to-black/90"></div>
+          <img 
+            src={`${base}/images/drumming-stage-smoke.jpg`} 
+            alt="Onur drumming on stage" 
+            class="w-full h-72 object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-6">
+            <span class="text-red-400 text-sm font-semibold tracking-widest uppercase mb-2">Music</span>
+            <h3 class="text-3xl md:text-4xl font-black text-white mb-2" style="font-family: var(--font-display);">Drummer</h3>
+            <p class="text-gray-300 text-center text-sm max-w-xs">
+              Touring & session drummer for RAUM27, Chaos und Liebe, and more.
+            </p>
+            <span class="mt-4 inline-flex items-center gap-2 text-red-400 text-sm font-medium group-hover:gap-3 transition-all">
+              Explore →
+            </span>
+          </div>
+        </a>
+      </SectionReveal>
+      
+      <SectionReveal client:visible direction="right" delay={0.2}>
+        <a href={`${base}/tech/`} class="group block relative overflow-hidden rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all duration-500">
+          <div class="absolute inset-0 bg-gradient-to-br from-cyan-950/50 to-black/90 grid-pattern"></div>
+          <div class="w-full h-72 bg-gradient-to-br from-slate-900 to-slate-950 opacity-60"></div>
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-6">
+            <span class="text-cyan-400 text-sm font-semibold tracking-widest uppercase mb-2">Technology</span>
+            <h3 class="text-3xl md:text-4xl font-black text-white mb-2">AI Engineer</h3>
+            <p class="text-gray-300 text-center text-sm max-w-xs">
+              Machine Learning specialist. Building intelligent systems with Python & PyTorch.
+            </p>
+            <span class="mt-4 inline-flex items-center gap-2 text-cyan-400 text-sm font-medium group-hover:gap-3 transition-all">
+              Explore →
+            </span>
+          </div>
+        </a>
+      </SectionReveal>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  persona?: 'music' | 'tech';
+}
+
+const { 
+  title = 'Onur Gürsoy — Drummer & AI Engineer',
+  description = 'Professional Touring Drummer and AI/ML Engineer. Two worlds, one artist.',
+  persona = 'music'
+} = Astro.props;
+
+const base = '/website';
+---
+
+<!doctype html>
+<html lang="en" data-persona={persona}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Preload hero images -->
+    <link rel="preload" as="image" href={`${base}/images/drumming-crowd-view.jpg`} />
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
+    
+    <title>{title}</title>
+    
+    <script is:inline define:vars={{ persona }}>
+      const path = window.location.pathname;
+      const saved = localStorage.getItem('persona');
+      document.documentElement.dataset.persona = path.startsWith('/website/tech/') ? 'tech'
+        : path.startsWith('/website/music/') ? 'music'
+        : saved === 'tech' ? 'tech' : persona;
+    </script>
+  </head>
+  <body class="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-500 overflow-x-hidden">
+    <slot />
+    <Footer />
+  </body>
+</html>
