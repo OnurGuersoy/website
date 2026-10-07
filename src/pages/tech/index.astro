@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.tsx';
+import PersonaTransition from '../../components/PersonaTransition.tsx';
+import SectionReveal from '../../components/SectionReveal.tsx';
+import ProjectCard from '../../components/ProjectCard.tsx';
+import TechStackBadge from '../../components/TechStackBadge.tsx';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('techProjects');
+const featuredProjects = allProjects.filter((p) => p.data.isFeatured);
+const otherProjects = allProjects.filter((p) => !p.data.isFeatured);
+
+const base = '/website';
+
+const experience = [
+  {
+    company: 'EUROGATE GmbH & Co. KGaA, KG',
+    role: 'Software-/AI Engineer (Working Student)',
+    period: '01/2024 – 08/2026',
+    highlights: [
+      'railmybox Angular Frontend-Entwicklung',
+      'Master Thesis: Discrete-Event Simulation for Intermodal Rail Transshipment — Comparing MILP-based Planning and Q-Learning Control',
+    ],
+  },
+  {
+    company: 'Event Inc Group',
+    role: 'Software Engineer (Full-time)',
+    period: '06/2021 – 08/2023',
+    highlights: [
+      'React Frontend Development',
+      'Feature Planning, Architectural Definition & Implementation',
+    ],
+  },
+  {
+    company: 'Legal Analytics / Juracus',
+    role: 'Fullstack Developer (Working Student)',
+    period: '10/2020 – 04/2021',
+    highlights: ['Fullstack development for legal tech platform'],
+  },
+  {
+    company: 'Movingdots GmbH',
+    role: 'Fullstack Developer (Working Student)',
+    period: '02/2020 – 09/2020',
+    highlights: ['Fullstack development'],
+  },
+  {
+    company: 'Audi AG / Audi Electronic Ventures GmbH',
+    role: 'Mobile Software Developer (Internship)',
+    period: '06/2019 – 11/2019',
+    highlights: ['Mobile application development'],
+  },
+  {
+    company: 'CTS Eventim',
+    role: 'Test Automation Engineer (Working Student)',
+    period: '05/2018 – 06/2019',
+    highlights: ['Test automation for ticketing platform'],
+  },
+  {
+    company: 'Universität Bremen',
+    role: 'Tutor for Media Informatics (Working Student)',
+    period: '11/2017 – 03/2018',
+    highlights: ['Teaching and tutoring'],
+  },
+];
+
+const coreSkills = [
+  'Python', 'PyTorch', 'TensorFlow', 'Scikit-learn',
+  'TypeScript', 'React', 'Angular', 'Node.js',
+  'Docker', 'Git', 'SQL', 'REST APIs',
+  'Reinforcement Learning', 'Computer Vision', 'NLP', 'LLMs',
+];
+---
+
+<BaseLayout title="Onur Gürsoy — AI & ML Engineer" persona="tech">
+  <Nav client:load />
+  <PersonaTransition client:load />
+  
+  <!-- Hero -->
+  <section class="relative pt-28 pb-20 overflow-hidden">
+    <div class="absolute inset-0 grid-pattern opacity-30"></div>
+    <div class="relative max-w-6xl mx-auto px-6">
+      <SectionReveal client:visible>
+        <p class="text-cyan-400 text-sm font-semibold tracking-[0.3em] uppercase mb-4 font-mono">Computer Science · AI · Machine Learning</p>
+        <h1 class="text-5xl md:text-7xl font-black mb-6">
+          <span class="text-gradient-tech">AI Engineer</span>
+        </h1>
+        <p class="text-xl text-[var(--text-secondary)] max-w-2xl leading-relaxed">
+          Specialized in Artificial Intelligence and Machine Learning. Building intelligent systems 
+          that solve real-world problems — from reinforcement learning for logistics optimization to 
+          neural audio analysis.
+        </p>
+      </SectionReveal>
+      
+      <!-- Skills -->
+      <SectionReveal client:visible delay={0.2}>
+        <div class="mt-12 flex flex-wrap gap-2">
+          {coreSkills.map((skill) => (
+            <TechStackBadge client:visible name={skill} />
+          ))}
+        </div>
+      </SectionReveal>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <SectionReveal client:visible>
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">Featured Projects</h2>
+    </SectionReveal>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {featuredProjects.map((project, i) => (
+        <SectionReveal client:visible delay={i * 0.1}>
+          <ProjectCard
+            client:visible
+            title={project.data.title}
+            description={project.data.description}
+            problem={project.data.problem}
+            solution={project.data.solution}
+            techStack={project.data.techStack}
+            github={project.data.github}
+            liveUrl={project.data.liveUrl}
+          />
+        </SectionReveal>
+      ))}
+    </div>
+    
+    {otherProjects.length > 0 && (
+      <div class="mt-12">
+        <SectionReveal client:visible>
+          <h3 class="text-xl font-semibold mb-6 text-[var(--text-secondary)]">Other Projects</h3>
+        </SectionReveal>
+        <div class="grid md:grid-cols-2 gap-6">
+          {otherProjects.map((project, i) => (
+            <SectionReveal client:visible delay={i * 0.1}>
+              <ProjectCard
+                client:visible
+                title={project.data.title}
+                description={project.data.description}
+                problem={project.data.problem}
+                solution={project.data.solution}
+                techStack={project.data.techStack}
+                github={project.data.github}
+                liveUrl={project.data.liveUrl}
+              />
+            </SectionReveal>
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+
+  <!-- Experience Timeline -->
+  <section class="max-w-4xl mx-auto px-6 py-20">
+    <SectionReveal client:visible>
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">Experience</h2>
+    </SectionReveal>
+    
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-cyan-500/50 via-blue-500/30 to-transparent"></div>
+      
+      <div class="space-y-8">
+        {experience.map((exp, i) => (
+          <SectionReveal client:visible delay={i * 0.05}>
+            <div class="relative pl-12">
+              <!-- Timeline dot -->
+              <div class="absolute left-[9px] top-2 w-3 h-3 rounded-full bg-cyan-500 border-2 border-[var(--bg-primary)]"></div>
+              
+              <div class="glass-card rounded-xl p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-3">
+                  <div>
+                    <h3 class="text-lg font-bold text-white">{exp.company}</h3>
+                    <p class="text-cyan-400 text-sm font-medium">{exp.role}</p>
+                  </div>
+                  <span class="text-[var(--text-secondary)] text-sm font-mono whitespace-nowrap">{exp.period}</span>
+                </div>
+                <ul class="space-y-1">
+                  {exp.highlights.map((h) => (
+                    <li class="text-[var(--text-secondary)] text-sm flex items-start gap-2">
+                      <span class="text-cyan-500/50 mt-1">▸</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </SectionReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

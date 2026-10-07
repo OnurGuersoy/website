@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.tsx';
+import PersonaTransition from '../../components/PersonaTransition.tsx';
+import SectionReveal from '../../components/SectionReveal.tsx';
+import GigCard from '../../components/GigCard.tsx';
+import { getCollection } from 'astro:content';
+
+const allGigs = await getCollection('gigs');
+const sortedGigs = allGigs.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const upcomingGigs = sortedGigs.filter((g) => g.data.isUpcoming);
+const pastGigs = sortedGigs.filter((g) => !g.data.isUpcoming);
+---
+
+<BaseLayout title="Tour Dates — Onur Gürsoy" persona="music">
+  <Nav client:load />
+  <PersonaTransition client:load />
+  
+  <section class="pt-28 pb-20 max-w-4xl mx-auto px-6">
+    <SectionReveal client:visible>
+      <a href="/website/music/" class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors mb-6 inline-block">
+        ← Back to Music
+      </a>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Tour Dates & Shows</h1>
+      <p class="text-[var(--text-secondary)] text-lg mb-12">
+        Upcoming and past live performances.
+      </p>
+    </SectionReveal>
+
+    {upcomingGigs.length > 0 && (
+      <div class="mb-16">
+        <SectionReveal client:visible>
+          <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            Upcoming
+          </h2>
+        </SectionReveal>
+        <div class="space-y-4">
+          {upcomingGigs.map((gig, i) => (
+            <SectionReveal client:visible delay={i * 0.05}>
+              <GigCard
+                client:visible
+                title={gig.data.title}
+                band={gig.data.band}
+                role={gig.data.role}
+                date={gig.data.date.toISOString()}
+                venue={gig.data.venue}
+                city={gig.data.city}
+                description={gig.data.description}
+                videoUrl={gig.data.videoUrl}
+                image={gig.data.image}
+                isUpcoming={gig.data.isUpcoming}
+                isFeatured={gig.data.isFeatured}
+              />
+            </SectionReveal>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {pastGigs.length > 0 && (
+      <div>
+        <SectionReveal client:visible>
+          <h2 class="text-2xl font-bold mb-8 text-[var(--text-secondary)]">Past Shows</h2>
+        </SectionReveal>
+        <div class="space-y-4">
+          {pastGigs.map((gig, i) => (
+            <SectionReveal client:visible delay={i * 0.05}>
+              <GigCard
+                client:visible
+                title={gig.data.title}
+                band={gig.data.band}
+                role={gig.data.role}
+                date={gig.data.date.toISOString()}
+                venue={gig.data.venue}
+                city={gig.data.city}
+                description={gig.data.description}
+                videoUrl={gig.data.videoUrl}
+                image={gig.data.image}
+                isUpcoming={gig.data.isUpcoming}
+                isFeatured={gig.data.isFeatured}
+              />
+            </SectionReveal>
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+</BaseLayout>

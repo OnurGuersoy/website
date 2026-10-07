@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.tsx';
+import PersonaTransition from '../../components/PersonaTransition.tsx';
+import SectionReveal from '../../components/SectionReveal.tsx';
+import GigCard from '../../components/GigCard.tsx';
+import VideoShowcase from '../../components/VideoShowcase.tsx';
+import { getCollection } from 'astro:content';
+
+const allGigs = await getCollection('gigs');
+const featuredGigs = allGigs
+  .filter((g) => g.data.isFeatured)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const base = '/website';
+
+const videos = [
+  { title: 'RAUM27 — Live Performance', url: 'https://www.youtube.com/watch?v=o3NOqJbsDgM', type: 'youtube' as const },
+  { title: 'RAUM27 — ZDF Morgenmagazin Feature', url: 'https://www.zdfheute.de/video/zdf-morgenmagazin/raum-100.html', type: 'external' as const },
+  { title: 'Live Session — Full Band', url: 'https://www.youtube.com/watch?v=Lkt6So1wYT4', type: 'youtube' as const },
+  { title: 'Drum Performance', url: 'https://www.youtube.com/watch?v=VlDAqgDOYMs', type: 'youtube' as const },
+  { title: 'Live Set — Behind the Kit', url: 'https://www.youtube.com/watch?v=njGE0_wAK_E', type: 'youtube' as const },
+];
+
+const otherProjects = ['Remote Bondage', 'Nils Wandrey', 'shedancedslowly', 'Vladi Wostock'];
+---
+
+<BaseLayout title="Onur Gürsoy — Drummer" persona="music">
+  <Nav client:load />
+  <PersonaTransition client:load />
+  
+  <!-- Hero -->
+  <section class="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img 
+        src={`${base}/images/drumming-crowd-view.jpg`} 
+        alt="Onur drumming live" 
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[var(--bg-primary)]"></div>
+    </div>
+    
+    <!-- Grain -->
+    <div class="absolute inset-0 noise-overlay"></div>
+    
+    <div class="relative z-10 text-center px-6 pt-16">
+      <SectionReveal client:visible>
+        <p class="text-red-400 text-sm font-semibold tracking-[0.3em] uppercase mb-4">Touring & Session Drummer</p>
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6" style="font-family: var(--font-display);">
+          <span class="text-gradient-music">ONUR GÜRSOY</span>
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
+          Drummer for <strong class="text-white">RAUM27</strong> · <strong class="text-white">Chaos und Liebe</strong> Live Band
+        </p>
+      </SectionReveal>
+    </div>
+  </section>
+
+  <!-- Featured Shows -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <SectionReveal client:visible>
+      <div class="flex items-center gap-4 mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold">Featured Shows</h2>
+        <a href={`${base}/music/tour-dates/`} class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
+          All dates →
+        </a>
+      </div>
+    </SectionReveal>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      {featuredGigs.map((gig) => (
+        <SectionReveal client:visible delay={0.1}>
+          <GigCard
+            client:visible
+            title={gig.data.title}
+            band={gig.data.band}
+            role={gig.data.role}
+            date={gig.data.date.toISOString()}
+            venue={gig.data.venue}
+            city={gig.data.city}
+            description={gig.data.description}
+            videoUrl={gig.data.videoUrl}
+            image={gig.data.image}
+            isUpcoming={gig.data.isUpcoming}
+            isFeatured={gig.data.isFeatured}
+          />
+        </SectionReveal>
+      ))}
+    </div>
+  </section>
+
+  <!-- Photo Gallery -->
+  <section class="max-w-6xl mx-auto px-6 py-10">
+    <SectionReveal client:visible>
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">On Stage</h2>
+    </SectionReveal>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <SectionReveal client:visible delay={0}>
+        <div class="rounded-xl overflow-hidden aspect-square">
+          <img src={`${base}/images/drumming-stage-smoke.jpg`} alt="Drumming on stage with smoke" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
+        </div>
+      </SectionReveal>
+      <SectionReveal client:visible delay={0.1}>
+        <div class="rounded-xl overflow-hidden aspect-square">
+          <img src={`${base}/images/drumming-behind-kit.jpg`} alt="Behind the drum kit" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
+        </div>
+      </SectionReveal>
+      <SectionReveal client:visible delay={0.2}>
+        <div class="rounded-xl overflow-hidden aspect-square">
+          <img src={`${base}/images/drumming-crowd-view.jpg`} alt="View from behind drums to crowd" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
+        </div>
+      </SectionReveal>
+      <SectionReveal client:visible delay={0.3}>
+        <div class="rounded-xl overflow-hidden aspect-square">
+          <img src={`${base}/images/drumming-sticks-portrait.jpg`} alt="Onur holding drumsticks" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
+        </div>
+      </SectionReveal>
+    </div>
+  </section>
+
+  <!-- Video Showcase -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <SectionReveal client:visible>
+      <h2 class="text-3xl md:text-4xl font-bold mb-12">Video Showcase</h2>
+    </SectionReveal>
+    <VideoShowcase client:visible videos={videos} />
+  </section>
+
+  <!-- Open For Projects -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <SectionReveal client:visible>
+      <div class="glass-card rounded-2xl p-8 md:p-12">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4">Open for Projects</h2>
+        <p class="text-[var(--text-secondary)] mb-8 max-w-2xl">
+          I'm available for touring, session work, and remote recording. Past & current collaborations include:
+        </p>
+        <div class="flex flex-wrap gap-3">
+          {otherProjects.map((project) => (
+            <span class="px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-300 text-sm font-medium">
+              {project}
+            </span>
+          ))}
+        </div>
+        <div class="mt-8 pt-6 border-t border-white/10">
+          <h3 class="text-lg font-semibold mb-3">Equipment & Setup</h3>
+          <p class="text-[var(--text-secondary)] text-sm leading-relaxed">
+            Hybrid setup: Acoustic drums with Roland SPD-SX sampling pad & electronic triggers. 
+            Capable of both touring and remote recording with professional-grade audio delivery. 
+            Full in-ear monitoring setup for consistent live performance.
+          </p>
+        </div>
+      </div>
+    </SectionReveal>
+  </section>
+</BaseLayout>
