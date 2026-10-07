@@ -9,25 +9,16 @@ export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('persona') as Persona;
-    if (stored === 'music' || stored === 'tech') {
-      setPersona(stored);
-      document.documentElement.dataset.persona = stored;
-    } else {
-      document.documentElement.dataset.persona = 'music';
-    }
+    const current = window.location.pathname.startsWith('/website/tech/') ? 'tech'
+      : window.location.pathname.startsWith('/website/music/') ? 'music'
+      : localStorage.getItem('persona') === 'tech' ? 'tech' : 'music';
+    setPersona(current);
+    document.documentElement.dataset.persona = current;
   }, []);
 
   const handleToggle = (newPersona: Persona) => {
-    if (newPersona === persona) return;
-    
-    // Dispatch custom event for transition component
-    const event = new CustomEvent('personaChange', { detail: { from: persona, to: newPersona } });
-    window.dispatchEvent(event);
-
-    setPersona(newPersona);
     localStorage.setItem('persona', newPersona);
-    document.documentElement.dataset.persona = newPersona;
+    window.location.assign(`/website/${newPersona}/`);
   };
 
   const navLinks = persona === 'music' 
@@ -58,7 +49,7 @@ export default function Nav() {
 
           {/* Center Toggle */}
           <div className="hidden md:flex flex-1 justify-center">
-            <div className="relative flex items-center p-1 bg-black/50 rounded-full border border-white/10 overflow-hidden cursor-pointer shadow-inner">
+            <div className="relative flex items-center p-1 bg-black/50 rounded-full border border-white/10 overflow-hidden">
               <button
                 onClick={() => handleToggle('music')}
                 className={`relative z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ${persona === 'music' ? 'text-black' : 'text-gray-400 hover:text-white'}`}
@@ -75,7 +66,7 @@ export default function Nav() {
               </button>
 
               <motion.div
-                className={`absolute inset-y-1 rounded-full ${persona === 'music' ? 'bg-gradient-to-r from-red-500 to-amber-500' : 'bg-gradient-to-r from-cyan-500 to-blue-500'}`}
+                className={`absolute inset-y-1 rounded-full ${persona === 'music' ? 'bg-[#df8c83]' : 'bg-[#82bcc9]'}`}
                 layoutId="nav-toggle-bg"
                 initial={false}
                 animate={{
@@ -108,6 +99,8 @@ export default function Nav() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
               className="text-gray-400 hover:text-white p-2"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -144,7 +137,7 @@ export default function Nav() {
                     AI ENGINEER
                   </button>
                   <motion.div
-                    className={`absolute inset-y-1 rounded-full ${persona === 'music' ? 'bg-gradient-to-r from-red-500 to-amber-500' : 'bg-gradient-to-r from-cyan-500 to-blue-500'}`}
+                    className={`absolute inset-y-1 rounded-full ${persona === 'music' ? 'bg-[#df8c83]' : 'bg-[#82bcc9]'}`}
                     layoutId="mobile-nav-toggle-bg"
                     initial={false}
                     animate={{

@@ -7,7 +7,7 @@ venue: "Große Freiheit 36"
 city: "Hamburg"
 description: "Part of the Chaos und Liebe live band. Energetic performances blending various genres with tight musicianship and raw energy."
 videoUrl: "https://www.youtube.com/watch?v=Lkt6So1wYT4"
-image: "/images/drumming-behind-kit.jpg"
+image: "/website/images/drumming-behind-kit.jpg"
 isFeatured: true
 isUpcoming: true
 ---

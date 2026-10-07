@@ -21,10 +21,9 @@ export default function GigCard({
 }: GigCardProps) {
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
-      className={`relative overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm border ${
-        isFeatured ? 'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)]' : 'border-white/10'
-      } p-6 flex flex-col group transition-colors`}
+      className={`relative overflow-hidden rounded-xl bg-white/[0.03] border ${
+        isFeatured ? 'border-red-400/25' : 'border-white/10'
+      } p-6 flex flex-col group transition-colors hover:border-white/25`}
     >
       {/* Background Image optional */}
       {image && (
@@ -35,11 +34,11 @@ export default function GigCard({
       )}
       
       <div className="relative z-10 flex flex-col h-full">
-        <div className="flex justify-between items-start mb-4">
+        <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Calendar size={16} className={isFeatured ? "text-red-400" : "text-gray-400"} />
-              <span className="text-sm font-medium text-gray-300">{date}</span>
+              <time dateTime={date} className="text-sm font-medium text-gray-300">{new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(date))}</time>
             </div>
             <h3 className="text-2xl font-bold text-white tracking-tight">{title}</h3>
             <div className="text-lg font-semibold text-red-400 mt-1">{band}</div>
@@ -47,7 +46,7 @@ export default function GigCard({
           
           <div className="flex flex-col items-end gap-2">
             {isUpcoming && (
-              <span className="px-3 py-1 text-xs font-bold bg-red-500/20 text-red-400 rounded-full border border-red-500/30 animate-pulse">
+              <span className="px-3 py-1 text-xs font-bold bg-red-500/20 text-red-400 rounded-full border border-red-500/20">
                 UPCOMING
               </span>
             )}

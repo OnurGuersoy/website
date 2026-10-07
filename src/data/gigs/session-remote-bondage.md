@@ -1,14 +1,14 @@
 ---
-title: "Remote Bondage — Studio Session"
+title: "Remote Bondage — Substitute Drums"
 band: "Remote Bondage"
-role: "Session Drummer"
+role: "Substitute Drummer"
 date: 2026-06-10
 venue: "Studio Session"
 city: "Remote"
-description: "Remote recording session for the band Remote Bondage. Delivered drum tracks for their upcoming EP with a focus on dynamic, groove-heavy playing."
+description: "Substitute drumming for Remote Bondage on selected performances and sessions."
 videoUrl: "https://www.youtube.com/watch?v=VlDAqgDOYMs"
 isFeatured: false
 isUpcoming: false
 ---
 
-Session work for Remote Bondage — recording drum tracks remotely with precision and feel. Working with artists across distances to deliver the exact energy their music demands.
+Substitute drummer for Remote Bondage, joining when needed rather than as a permanent member.

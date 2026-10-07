@@ -11,6 +11,7 @@ const allGigs = await getCollection('gigs');
 const featuredGigs = allGigs
   .filter((g) => g.data.isFeatured)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const today = new Date().toISOString().slice(0, 10);
 
 const base = '/website';
 
@@ -51,7 +52,7 @@ const otherProjects = ['Remote Bondage', 'Nils Wandrey', 'shedancedslowly', 'Vla
           <span class="text-gradient-music">ONUR GÜRSOY</span>
         </h1>
         <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
-          Drummer for <strong class="text-white">RAUM27</strong> · <strong class="text-white">Chaos und Liebe</strong> Live Band
+          Live drummer for <strong class="text-white">RAUM27</strong> · <strong class="text-white">Chaos und Liebe</strong> · substitute drummer for Remote Bondage & Vladi Wostock
         </p>
       </SectionReveal>
     </div>
@@ -63,7 +64,7 @@ const otherProjects = ['Remote Bondage', 'Nils Wandrey', 'shedancedslowly', 'Vla
       <div class="flex items-center gap-4 mb-12">
         <h2 class="text-3xl md:text-4xl font-bold">Featured Shows</h2>
         <a href={`${base}/music/tour-dates/`} class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
-          All dates →
+          2027 tour dates →
         </a>
       </div>
     </SectionReveal>
@@ -82,7 +83,7 @@ const otherProjects = ['Remote Bondage', 'Nils Wandrey', 'shedancedslowly', 'Vla
             description={gig.data.description}
             videoUrl={gig.data.videoUrl}
             image={gig.data.image}
-            isUpcoming={gig.data.isUpcoming}
+            isUpcoming={gig.data.date.toISOString().slice(0, 10) >= today}
             isFeatured={gig.data.isFeatured}
           />
         </SectionReveal>
@@ -138,7 +139,7 @@ const otherProjects = ['Remote Bondage', 'Nils Wandrey', 'shedancedslowly', 'Vla
         <div class="flex flex-wrap gap-3">
           {otherProjects.map((project) => (
             <span class="px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-300 text-sm font-medium">
-              {project}
+              {project}{(project === 'Remote Bondage' || project === 'Vladi Wostock') && ' · substitute drums'}
             </span>
           ))}
         </div>

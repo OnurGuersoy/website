@@ -39,11 +39,11 @@ const base = '/website';
     <title>{title}</title>
     
     <script is:inline define:vars={{ persona }}>
-      // Restore persona from localStorage before paint to prevent flash
+      const path = window.location.pathname;
       const saved = localStorage.getItem('persona');
-      if (saved === 'music' || saved === 'tech') {
-        document.documentElement.dataset.persona = saved;
-      }
+      document.documentElement.dataset.persona = path.startsWith('/website/tech/') ? 'tech'
+        : path.startsWith('/website/music/') ? 'music'
+        : saved === 'tech' ? 'tech' : persona;
     </script>
   </head>
   <body class="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-500 overflow-x-hidden">

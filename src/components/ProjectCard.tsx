@@ -19,7 +19,7 @@ export default function ProjectCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ type: 'spring', stiffness: 300 }}
-      className="relative flex flex-col h-full bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 overflow-hidden group hover:border-cyan-500/50 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] transition-colors"
+      className="relative flex flex-col h-full bg-white/[0.03] border border-white/10 rounded-2xl p-6 overflow-hidden group hover:border-cyan-300/30 transition-colors"
     >
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
