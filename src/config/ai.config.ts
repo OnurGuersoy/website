@@ -3,7 +3,7 @@ export const aiConfig = {
   eyebrow: 'Computer science / AI / machine learning',
   heading: 'AI Engineer',
   introduction: 'Building intelligent systems for real-world problems, from reinforcement learning in logistics to neural audio analysis.',
-  labels: { featured: 'Featured projects', other: 'Other projects', experience: 'Experience', problem: 'The problem', solution: 'The approach', connect: 'Find me online' },
+  labels: { featured: 'Featured projects', other: 'Other projects', experience: 'Professional experience', experienceIntro: 'Software engineering across logistics, event technology, legal tech, mobility and research.', problem: 'The problem', solution: 'The approach', connect: 'Find me online' },
   skills: ['Python', 'PyTorch', 'TensorFlow', 'Scikit-learn', 'TypeScript', 'React', 'Angular', 'Node.js', 'Docker', 'Git', 'SQL', 'REST APIs', 'Reinforcement Learning', 'Computer Vision', 'NLP', 'LLMs'],
   projects: [
     {
@@ -39,13 +39,63 @@ export const aiConfig = {
       github: 'https://github.com/OnurGuersoy', featured: false,
     },
   ],
-  experience: [
-    { company: 'EUROGATE GmbH & Co. KGaA, KG', role: 'Software-/AI Engineer (Working Student)', period: '01/2024 – 08/2026', highlights: ['railmybox Angular frontend development', 'Master thesis: simulation for intermodal rail transshipment, comparing MILP planning and Q-Learning control'] },
-    { company: 'Event Inc Group', role: 'Software Engineer (Full-time)', period: '06/2021 – 08/2023', highlights: ['React frontend development', 'Feature planning and architectural implementation'] },
-    { company: 'Legal Analytics / Juracus', role: 'Fullstack Developer (Working Student)', period: '10/2020 – 04/2021', highlights: ['Fullstack development for a legal tech platform'] },
-    { company: 'Movingdots GmbH', role: 'Fullstack Developer (Working Student)', period: '02/2020 – 09/2020', highlights: ['Fullstack development'] },
-    { company: 'Audi AG / Audi Electronic Ventures GmbH', role: 'Mobile Software Developer (Internship)', period: '06/2019 – 11/2019', highlights: ['Mobile application development'] },
-    { company: 'CTS Eventim', role: 'Test Automation Engineer (Working Student)', period: '05/2018 – 06/2019', highlights: ['Test automation for a ticketing platform'] },
-    { company: 'Universität Bremen', role: 'Tutor for Media Informatics (Working Student)', period: '11/2017 – 03/2018', highlights: ['Teaching and tutoring'] },
+  experiences: [
+    {
+      company: 'EUROGATE GmbH & Co. KGaA, KG',
+      role: 'Software / AI Engineer · Working student',
+      duration: 'Jan 2024 – Aug 2026',
+      techStack: ['Angular', 'Python', 'Discrete-event simulation', 'MILP', 'Q-Learning'],
+      highlights: [
+        'Developed the Angular frontend for railmybox.',
+        'Researched intermodal rail-transshipment planning for a master’s thesis.',
+        'Built a discrete-event simulation comparing MILP-based planning with Q-Learning control.',
+      ],
+    },
+    {
+      company: 'Event Inc Group',
+      role: 'Software Engineer · Full-time',
+      duration: 'Jun 2021 – Aug 2023',
+      techStack: ['React'],
+      highlights: [
+        'Developed React frontend features for an events platform.',
+        'Contributed to feature planning and architectural definition.',
+        'Implemented features based on the agreed architecture.',
+      ],
+    },
+    {
+      company: 'Legal Analytics / Juracus',
+      role: 'Full-stack Developer · Working student',
+      duration: 'Oct 2020 – Apr 2021',
+      techStack: [],
+      highlights: ['Worked on full-stack development for a legal-technology platform.'],
+    },
+    {
+      company: 'Movingdots GmbH',
+      role: 'Full-stack Developer · Working student',
+      duration: 'Feb 2020 – Sep 2020',
+      techStack: [],
+      highlights: ['Contributed to full-stack software development.'],
+    },
+    {
+      company: 'Audi AG / Audi Electronic Ventures GmbH',
+      role: 'Mobile Software Developer · Internship',
+      duration: 'Jun 2019 – Nov 2019',
+      techStack: [],
+      highlights: ['Developed mobile application software during an internship.'],
+    },
+    {
+      company: 'CTS Eventim',
+      role: 'Test Automation Engineer · Working student',
+      duration: 'May 2018 – Jun 2019',
+      techStack: [],
+      highlights: ['Worked on test automation for a ticketing platform.'],
+    },
+    {
+      company: 'Universität Bremen',
+      role: 'Media Informatics Tutor · Working student',
+      duration: 'Nov 2017 – Mar 2018',
+      techStack: [],
+      highlights: ['Tutored students in media informatics.'],
+    },
   ],
 } as const;

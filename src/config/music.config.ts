@@ -1,11 +1,9 @@
-export type Show = { date: string; city: string; venue: string; band: string; role: string; title?: string; description?: string; videoUrl?: string; image?: string };
-
 export const musicConfig = {
   title: 'Onur Gürsoy — Drummer',
   eyebrow: 'Touring / session drummer',
   introduction: 'Live drums for RAUM27 and Chaos und Liebe. Substitute drummer for Remote Bondage and Vladi Wostock.',
   heroImage: '/website/images/drumming-crowd-view.jpg',
-  labels: { featured: 'Selected live work', gallery: 'On stage', videos: 'Watch & listen', acts: 'Associated acts', credits: 'Selected recording credits', equipment: 'Live & studio setup', past: 'Selected past shows & sessions', back: 'Back to music', upcoming: 'Other upcoming shows', source: 'Dates and venues: Reservix tour announcement. Check the ticket page for availability.' },
+  labels: { gallery: 'On stage', videos: 'Watch & listen', acts: 'Associated acts', credits: 'Selected recording credits', equipment: 'Live & studio setup', back: 'Back to music', source: 'Dates and venues: Reservix tour announcement. Check the ticket page for availability.' },
   availability: 'Available for touring, session work and remote recording.',
   tourTitle: 'RAUM27 · Spring 2027',
   tourSubtitle: '17 dates · Germany & Austria',
@@ -46,14 +44,6 @@ export const musicConfig = {
     { title: 'Anfangen Anzufangen', kind: 'Album', artist: 'RAUM27', detail: 'Album instrumentation / drums', url: 'https://hb-people.de/bilder/raum27-veroeffentlichen-debuet-album-anfangen-anzufangen/' },
     { title: 'Das Klima wieder hin', kind: 'Single', artist: 'RAUM27', detail: 'Drums — credit supplied by Onur' },
   ],
-  pastShows: [
-    { date: '2025-03-21', city: 'Hamburg', venue: 'Markthalle', band: 'RAUM27', role: 'Live drums', title: 'Keine Tränen Tour', description: 'Sold-out Hamburg concert, including an Onur drum solo.', videoUrl: 'https://www.soundsandbooks.com/raum27-live-in-hamburg-2025/' },
-    { date: '2026-09-20', city: 'Hamburg', venue: 'Große Freiheit 36', band: 'Chaos und Liebe', role: 'Live band drummer', title: 'Chaos und Liebe — Live Band Tour', description: 'Live band performance.', image: '/website/images/drumming-behind-kit.jpg' },
-    { date: '2026-06-10', city: 'Remote', venue: 'Session', band: 'Remote Bondage', role: 'Substitute drummer', title: 'Remote Bondage — Substitute Drums', description: 'Substitute drumming for selected performances and sessions.' },
-    { date: '2026-04-22', city: 'Hamburg', venue: 'Studio / Live', band: 'Vladi Wostock', role: 'Substitute drummer', title: 'Vladi Wostock — Collaboration', description: 'Substitute drumming for selected performances.' },
-    { date: '2026-03-15', city: 'Hamburg', venue: 'Studio Session', band: 'Nils Wandrey', role: 'Session drummer', title: 'Nils Wandrey — Session Work', description: 'Drum tracking for a solo project.' },
-    { date: '2026-02-28', city: 'Hamburg', venue: 'Knust', band: 'shedancedslowly', role: 'Session drummer', title: 'shedancedslowly — Live Performance', description: 'Live performance with shedancedslowly.' },
-  ] satisfies Show[],
   videos: [
     { title: 'RAUM27 — Live Performance', url: 'https://www.youtube.com/watch?v=o3NOqJbsDgM', type: 'youtube' as const },
     { title: 'RAUM27 — ZDF Morgenmagazin Feature', url: 'https://www.zdfheute.de/video/zdf-morgenmagazin/raum-100.html', type: 'external' as const },

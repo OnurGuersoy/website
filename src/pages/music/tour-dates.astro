@@ -2,14 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.tsx';
 import SectionReveal from '../../components/SectionReveal.tsx';
-import GigCard from '../../components/GigCard.tsx';
 import { siteConfig } from '../../config/site.config';
 import { musicConfig } from '../../config/music.config';
 
 const music = musicConfig;
-const today = new Date().toISOString().slice(0, 10);
-const upcomingGigs = music.pastShows.filter((gig) => gig.date >= today);
-const pastGigs = music.pastShows.filter((gig) => gig.date < today);
 const dateFormat = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
 ---
 
@@ -22,7 +18,7 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'sh
       <p class="mb-12 text-lg text-[var(--text-secondary)]">{music.availability}</p>
     </SectionReveal>
 
-    <section class="mb-16" aria-labelledby="raum27-tour">
+    <section aria-labelledby="raum27-tour">
       <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div><p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-rose-200">{music.tourSubtitle}</p><h2 id="raum27-tour" class="text-2xl font-semibold md:text-3xl">{music.tourTitle}</h2></div>
         <a href={music.ticketUrl} target="_blank" rel="noopener noreferrer" class="border-b border-rose-300/60 pb-1 text-sm font-medium text-rose-200 hover:text-white">{music.ticketsLabel} ↗</a>
@@ -39,7 +35,5 @@ const dateFormat = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'sh
       <p class="mt-4 text-xs text-[var(--text-secondary)]"><a href={music.tourSource} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-white">{music.labels.source}</a></p>
     </section>
 
-    {upcomingGigs.length > 0 && <section class="mb-16"><h2 class="mb-8 text-2xl font-semibold">{music.labels.upcoming}</h2><div class="space-y-4">{upcomingGigs.map((gig) => <GigCard client:visible title={gig.title} band={gig.band} role={gig.role} date={`${gig.date}T00:00:00Z`} venue={gig.venue} city={gig.city} description={gig.description} videoUrl={gig.videoUrl} image={gig.image} isUpcoming={true} />)}</div></section>}
-    {pastGigs.length > 0 && <section><h2 class="mb-8 text-2xl font-semibold">{music.labels.past}</h2><div class="space-y-4">{pastGigs.map((gig) => <GigCard client:visible title={gig.title} band={gig.band} role={gig.role} date={`${gig.date}T00:00:00Z`} venue={gig.venue} city={gig.city} description={gig.description} videoUrl={gig.videoUrl} image={gig.image} isUpcoming={false} />)}</div></section>}
   </section>
 </BaseLayout>
