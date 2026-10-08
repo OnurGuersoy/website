@@ -108,7 +108,6 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: '2-
         </div>
         <div class="space-y-6 border-l border-white/10 pl-6">
           <div><h3 class="mb-2 text-sm font-semibold text-white">{music.labels.equipment}</h3><p class="text-sm leading-relaxed text-white/60">{music.equipment}</p></div>
-          <div><h3 class="mb-2 text-sm font-semibold text-white">{music.labels.featured}</h3><p class="text-sm leading-relaxed text-white/60">{music.pastShows[0].band} · {music.pastShows[0].venue}, {music.pastShows[0].city} · {formatDate(music.pastShows[0].date)}</p></div>
           <a href={music.tourSource} target="_blank" rel="noopener noreferrer" class="inline-block border-b border-white/35 pb-1 text-sm text-white/65 hover:text-white">{music.labels.source} ↗</a>
         </div>
       </div>
