@@ -3,155 +3,115 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.tsx';
 import PersonaTransition from '../../components/PersonaTransition.tsx';
 import SectionReveal from '../../components/SectionReveal.tsx';
-import GigCard from '../../components/GigCard.tsx';
 import VideoShowcase from '../../components/VideoShowcase.tsx';
-import { getCollection } from 'astro:content';
+import { siteConfig } from '../../config/site.config';
+import { musicConfig } from '../../config/music.config';
 
-const allGigs = await getCollection('gigs');
-const featuredGigs = allGigs
-  .filter((g) => g.data.isFeatured)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const today = new Date().toISOString().slice(0, 10);
-
-const base = '/website';
-
-const videos = [
-  { title: 'RAUM27 — Live Performance', url: 'https://www.youtube.com/watch?v=o3NOqJbsDgM', type: 'youtube' as const },
-  { title: 'RAUM27 — ZDF Morgenmagazin Feature', url: 'https://www.zdfheute.de/video/zdf-morgenmagazin/raum-100.html', type: 'external' as const },
-  { title: 'Live Session — Full Band', url: 'https://www.youtube.com/watch?v=Lkt6So1wYT4', type: 'youtube' as const },
-  { title: 'Drum Performance', url: 'https://www.youtube.com/watch?v=VlDAqgDOYMs', type: 'youtube' as const },
-  { title: 'Live Set — Behind the Kit', url: 'https://www.youtube.com/watch?v=njGE0_wAK_E', type: 'youtube' as const },
-];
-
-const otherProjects = ['Remote Bondage', 'Nils Wandrey', 'shedancedslowly', 'Vladi Wostock'];
+const { base, name } = siteConfig;
+const music = musicConfig;
+const formatDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`));
 ---
 
-<BaseLayout title="Onur Gürsoy — Drummer" persona="music">
+<BaseLayout title={music.title} persona="music">
   <Nav client:load />
   <PersonaTransition client:load />
-  
-  <!-- Hero -->
-  <section class="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-    <!-- Background Image -->
-    <div class="absolute inset-0">
-      <img 
-        src={`${base}/images/drumming-crowd-view.jpg`} 
-        alt="Onur drumming live" 
-        class="w-full h-full object-cover"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[var(--bg-primary)]"></div>
+
+  <header class="relative flex min-h-[570px] items-end overflow-hidden pt-32 pb-20 md:min-h-[620px]">
+    <img src={music.heroImage} alt="" class="absolute inset-0 h-full w-full object-cover object-center grayscale" />
+    <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[#101010]/65 to-black/40"></div>
+    <div class="relative mx-auto w-full max-w-6xl px-6">
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.26em] text-rose-200">{music.eyebrow}</p>
+      <h1 class="mb-5 text-5xl font-semibold tracking-[-0.06em] md:text-7xl">{name}</h1>
+      <p class="max-w-2xl text-lg leading-relaxed text-white/80 md:text-xl">{music.introduction}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={`${base}/music/tour-dates/`} class="rounded-full border border-rose-300/50 bg-rose-300/10 px-5 py-2.5 text-sm font-medium text-rose-100 hover:bg-rose-300/20">{music.tourAction} ↗</a>
+        <a href="#epk" class="rounded-full border border-white/25 px-5 py-2.5 text-sm font-medium text-white/85 hover:bg-white/10">{music.epk.title} ↓</a>
+      </div>
     </div>
-    
-    <!-- Grain -->
-    <div class="absolute inset-0 noise-overlay"></div>
-    
-    <div class="relative z-10 text-center px-6 pt-16">
+  </header>
+
+  <main class="mx-auto max-w-6xl space-y-24 px-6 py-16 md:py-24">
+    <section aria-labelledby="tour-heading">
       <SectionReveal client:visible>
-        <p class="text-red-400 text-sm font-semibold tracking-[0.3em] uppercase mb-4">Touring & Session Drummer</p>
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6" style="font-family: var(--font-display);">
-          <span class="text-gradient-music">ONUR GÜRSOY</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">
-          Live drummer for <strong class="text-white">RAUM27</strong> · <strong class="text-white">Chaos und Liebe</strong> · substitute drummer for Remote Bondage & Vladi Wostock
-        </p>
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p class="mb-2 text-xs uppercase tracking-[0.22em] text-rose-200">{music.tourSubtitle}</p>
+            <h2 id="tour-heading" class="text-3xl font-semibold tracking-tight md:text-4xl">{music.tourTitle}</h2>
+            <p class="mt-3 max-w-xl text-sm text-white/55">{music.tourIntro}</p>
+          </div>
+          <a href={`${base}/music/tour-dates/`} class="border-b border-rose-300/60 pb-1 text-sm text-rose-200 hover:text-white">{music.tourAction} ↗</a>
+        </div>
       </SectionReveal>
-    </div>
-  </section>
+      <ol class="divide-y divide-white/10 border-y border-white/10">
+        {music.tour.slice(0, 5).map((show) => (
+          <li class="grid grid-cols-[6rem_1fr] items-baseline gap-3 py-4 sm:grid-cols-[8rem_1fr_1fr]">
+            <time datetime={show.date} class="text-sm tabular-nums text-rose-200">{formatDate(show.date)}</time>
+            <span class="font-medium text-white">{show.city}</span>
+            <span class="col-start-2 text-sm text-white/55 sm:col-start-auto">{show.venue}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
 
-  <!-- Featured Shows -->
-  <section class="max-w-6xl mx-auto px-6 py-20">
-    <SectionReveal client:visible>
-      <div class="flex items-center gap-4 mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold">Featured Shows</h2>
-        <a href={`${base}/music/tour-dates/`} class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors">
-          2027 tour dates →
-        </a>
+    <section aria-labelledby="acts-heading">
+      <SectionReveal client:visible>
+        <h2 id="acts-heading" class="mb-7 text-3xl font-semibold tracking-tight">{music.labels.acts}</h2>
+      </SectionReveal>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {music.acts.map((act) => (
+          <div class="rounded-xl border border-white/10 bg-white/[0.025] px-5 py-4">
+            <h3 class="font-medium text-white">{act.name}</h3>
+            <p class="mt-1 text-xs uppercase tracking-wider text-rose-200/75">{act.role}</p>
+          </div>
+        ))}
       </div>
-    </SectionReveal>
-    
-    <div class="grid md:grid-cols-2 gap-6">
-      {featuredGigs.map((gig) => (
-        <SectionReveal client:visible delay={0.1}>
-          <GigCard
-            client:visible
-            title={gig.data.title}
-            band={gig.data.band}
-            role={gig.data.role}
-            date={gig.data.date.toISOString()}
-            venue={gig.data.venue}
-            city={gig.data.city}
-            description={gig.data.description}
-            videoUrl={gig.data.videoUrl}
-            image={gig.data.image}
-            isUpcoming={gig.data.date.toISOString().slice(0, 10) >= today}
-            isFeatured={gig.data.isFeatured}
-          />
-        </SectionReveal>
-      ))}
-    </div>
-  </section>
+    </section>
 
-  <!-- Photo Gallery -->
-  <section class="max-w-6xl mx-auto px-6 py-10">
-    <SectionReveal client:visible>
-      <h2 class="text-3xl md:text-4xl font-bold mb-12">On Stage</h2>
-    </SectionReveal>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <SectionReveal client:visible delay={0}>
-        <div class="rounded-xl overflow-hidden aspect-square">
-          <img src={`${base}/images/drumming-stage-smoke.jpg`} alt="Drumming on stage with smoke" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
-        </div>
-      </SectionReveal>
-      <SectionReveal client:visible delay={0.1}>
-        <div class="rounded-xl overflow-hidden aspect-square">
-          <img src={`${base}/images/drumming-behind-kit.jpg`} alt="Behind the drum kit" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
-        </div>
-      </SectionReveal>
-      <SectionReveal client:visible delay={0.2}>
-        <div class="rounded-xl overflow-hidden aspect-square">
-          <img src={`${base}/images/drumming-crowd-view.jpg`} alt="View from behind drums to crowd" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
-        </div>
-      </SectionReveal>
-      <SectionReveal client:visible delay={0.3}>
-        <div class="rounded-xl overflow-hidden aspect-square">
-          <img src={`${base}/images/drumming-sticks-portrait.jpg`} alt="Onur holding drumsticks" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" loading="lazy" />
-        </div>
-      </SectionReveal>
-    </div>
-  </section>
+    <section aria-labelledby="video-heading">
+      <SectionReveal client:visible><h2 id="video-heading" class="mb-8 text-3xl font-semibold tracking-tight">{music.labels.videos}</h2></SectionReveal>
+      <VideoShowcase client:visible videos={[...music.videos]} />
+    </section>
 
-  <!-- Video Showcase -->
-  <section class="max-w-6xl mx-auto px-6 py-20">
-    <SectionReveal client:visible>
-      <h2 class="text-3xl md:text-4xl font-bold mb-12">Video Showcase</h2>
-    </SectionReveal>
-    <VideoShowcase client:visible videos={videos} />
-  </section>
+    <section aria-labelledby="credit-heading">
+      <SectionReveal client:visible><h2 id="credit-heading" class="mb-7 text-3xl font-semibold tracking-tight">{music.labels.credits}</h2></SectionReveal>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {music.credits.map((credit) => (
+          <div class="rounded-xl border border-white/10 bg-white/[0.025] p-6">
+            <p class="mb-2 text-xs uppercase tracking-wider text-rose-200">{credit.kind} · {credit.artist}</p>
+            <h3 class="text-xl font-semibold">{credit.title}</h3>
+            <p class="mt-2 text-sm text-white/60">{credit.detail}</p>
+          </div>
+        ))}
+      </div>
+    </section>
 
-  <!-- Open For Projects -->
-  <section class="max-w-6xl mx-auto px-6 py-20">
-    <SectionReveal client:visible>
-      <div class="glass-card rounded-2xl p-8 md:p-12">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">Open for Projects</h2>
-        <p class="text-[var(--text-secondary)] mb-8 max-w-2xl">
-          I'm available for touring, session work, and remote recording. Past & current collaborations include:
-        </p>
-        <div class="flex flex-wrap gap-3">
-          {otherProjects.map((project) => (
-            <span class="px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-red-300 text-sm font-medium">
-              {project}{(project === 'Remote Bondage' || project === 'Vladi Wostock') && ' · substitute drums'}
-            </span>
-          ))}
+    <section aria-labelledby="gallery-heading">
+      <SectionReveal client:visible><h2 id="gallery-heading" class="mb-8 text-3xl font-semibold tracking-tight">{music.labels.gallery}</h2></SectionReveal>
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {music.gallery.map((photo) => (
+          <div class="aspect-square overflow-hidden rounded-lg bg-white/5"><img src={photo.src} alt={photo.alt} class="h-full w-full object-cover grayscale transition-[filter,transform] duration-500 hover:scale-[1.03] hover:grayscale-0" loading="lazy" /></div>
+        ))}
+      </div>
+    </section>
+
+    <section id="epk" aria-labelledby="epk-heading" class="scroll-mt-24 border-t border-white/15 pt-16">
+      <div class="grid gap-10 md:grid-cols-[1fr_0.8fr] md:gap-16">
+        <div>
+          <p class="mb-3 text-xs uppercase tracking-[0.2em] text-rose-200">{music.epk.eyebrow}</p>
+          <h2 id="epk-heading" class="text-3xl font-semibold tracking-tight md:text-4xl">{music.epk.title}</h2>
+          <p class="mt-5 max-w-xl leading-relaxed text-white/65">{music.epk.description}</p>
+          <p class="mt-5 text-sm text-white/50">{music.availability}</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href={music.epk.downloadUrl} download class="rounded-full bg-[#df8c83] px-5 py-2.5 text-sm font-semibold text-[#151515] hover:bg-[#f2a79e]">{music.epk.action} ↓</a>
+            <a href={`mailto:${siteConfig.contact.email}`} class="rounded-full border border-white/25 px-5 py-2.5 text-sm text-white/80 hover:bg-white/10">{music.epk.contactAction} ↗</a>
+          </div>
         </div>
-        <div class="mt-8 pt-6 border-t border-white/10">
-          <h3 class="text-lg font-semibold mb-3">Equipment & Setup</h3>
-          <p class="text-[var(--text-secondary)] text-sm leading-relaxed">
-            Hybrid setup: Acoustic drums with Roland SPD-SX sampling pad & electronic triggers. 
-            Capable of both touring and remote recording with professional-grade audio delivery. 
-            Full in-ear monitoring setup for consistent live performance.
-          </p>
+        <div class="space-y-6 border-l border-white/10 pl-6">
+          <div><h3 class="mb-2 text-sm font-semibold text-white">{music.labels.equipment}</h3><p class="text-sm leading-relaxed text-white/60">{music.equipment}</p></div>
+          <div><h3 class="mb-2 text-sm font-semibold text-white">{music.labels.featured}</h3><p class="text-sm leading-relaxed text-white/60">{music.pastShows[0].band} · {music.pastShows[0].venue}, {music.pastShows[0].city} · {formatDate(music.pastShows[0].date)}</p></div>
+          <a href={music.tourSource} target="_blank" rel="noopener noreferrer" class="inline-block border-b border-white/35 pb-1 text-sm text-white/65 hover:text-white">{music.labels.source} ↗</a>
         </div>
       </div>
-    </SectionReveal>
-  </section>
+    </section>
+  </main>
 </BaseLayout>

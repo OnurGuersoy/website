@@ -1,49 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { siteConfig } from '../config/site.config';
 
-type TransitionData = {
-  from: 'music' | 'tech';
-  to: 'music' | 'tech';
-} | null;
+type Persona = 'music' | 'tech';
+type Transition = { to: Persona; url: string };
+
+export function navigateToPersona(to: Persona) {
+  const url = `${siteConfig.base}/${to}/`;
+  localStorage.setItem('persona', to);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.location.assign(url);
+    return;
+  }
+  window.dispatchEvent(new CustomEvent<Transition>('personaChange', { detail: { to, url } }));
+}
 
 export default function PersonaTransition() {
-  const [transitionData, setTransitionData] = useState<TransitionData>(null);
+  const [transition, setTransition] = useState<Transition | null>(null);
 
   useEffect(() => {
-    const handleTransition = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      setTransitionData(customEvent.detail);
-      
-      // Auto-hide after animation
-      setTimeout(() => {
-        setTransitionData(null);
-      }, 800);
+    let timeout: ReturnType<typeof setTimeout>;
+    const onChange = (event: Event) => {
+      const detail = (event as CustomEvent<Transition>).detail;
+      setTransition(detail);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => window.location.assign(detail.url), 560);
     };
-
-    window.addEventListener('personaChange', handleTransition);
-    return () => window.removeEventListener('personaChange', handleTransition);
+    window.addEventListener('personaChange', onChange);
+    return () => { window.removeEventListener('personaChange', onChange); clearTimeout(timeout); };
   }, []);
 
   return (
     <AnimatePresence>
-      {transitionData && (
+      {transition && (
         <motion.div
-          className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center"
-          initial={{ clipPath: transitionData.to === 'tech' ? 'circle(0% at 0% 50%)' : 'circle(0% at 100% 50%)' }}
-          animate={{ clipPath: 'circle(150% at 50% 50%)' }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-          style={{
-            background: transitionData.to === 'tech' 
-              ? 'linear-gradient(to right, #0a1128, #06b6d4)' 
-              : 'linear-gradient(to left, #3a0a0a, #ef4444)'
-          }}
-        >
-          {/* Optional subtle overlay effects */}
-          <div className="absolute inset-0 opacity-20 mix-blend-overlay"
-            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
-          />
-        </motion.div>
+          role="presentation"
+          aria-hidden="true"
+          className={`fixed inset-0 z-[100] pointer-events-none ${transition.to === 'tech' ? 'bg-[#15242d]' : 'bg-[#2b1c1c]'}`}
+          initial={{ clipPath: transition.to === 'tech' ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)' }}
+          animate={{ clipPath: 'inset(0 0 0 0)' }}
+          transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+        />
       )}
     </AnimatePresence>
   );
