@@ -1,0 +1,31 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.tsx';
+
+const { frontmatter } = Astro.props;
+const base = '/website';
+---
+
+<BaseLayout title={frontmatter.title} persona="music">
+  <div class="no-print">
+    <Nav client:load />
+  </div>
+  
+  <main class="max-w-4xl mx-auto px-6 pt-32 pb-24">
+    <!-- Action Bar for Download/Print -->
+    <div class="no-print flex flex-wrap gap-4 mb-12 border-b border-white/10 pb-8">
+      <a href="/website/music/" class="text-red-400 hover:text-red-300 text-sm font-medium transition-colors flex items-center mr-auto">
+        ← Back to Music
+      </a>
+      <a href={`${base}/downloads/OnurGuersoy_EPK.pdf`} download class="px-4 py-2 bg-white/5 text-gray-300 border border-white/10 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-2 text-sm font-medium">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+        Download EPK (PDF)
+      </a>
+    </div>
+    
+    <!-- EPK Markdown Content Rendering -->
+    <article class="prose prose-invert prose-red prose-headings:font-display prose-h1:text-4xl prose-h1:font-black prose-a:text-red-400 hover:prose-a:text-red-300 max-w-none">
+      <slot />
+    </article>
+  </main>
+</BaseLayout>

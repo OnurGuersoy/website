@@ -85,6 +85,25 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: '2-
       </div>
     </section>
 
+    <section aria-labelledby="setup-heading">
+      <SectionReveal client:visible><h2 id="setup-heading" class="mb-8 text-3xl font-semibold tracking-tight">{music.setup.title}</h2></SectionReveal>
+      <div class="grid gap-10 md:grid-cols-2 md:items-center">
+        <div class="overflow-hidden rounded-2xl bg-white/5 border border-white/10 aspect-square md:aspect-[4/5]">
+          <img src={music.setup.image} alt="Drum Setup" class="h-full w-full object-cover" loading="lazy" />
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-12">
+          <ul class="space-y-5">
+            {music.setup.items.map((item) => (
+              <li class="flex items-center gap-4 text-base md:text-lg text-white/90">
+                <span class="flex h-1.5 w-1.5 rounded-full bg-rose-300 shadow-[0_0_8px_rgba(253,164,175,0.6)]"></span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section aria-labelledby="gallery-heading">
       <SectionReveal client:visible><h2 id="gallery-heading" class="mb-8 text-3xl font-semibold tracking-tight">{music.labels.gallery}</h2></SectionReveal>
       <div class="grid grid-cols-2 gap-3 md:grid-cols-4">

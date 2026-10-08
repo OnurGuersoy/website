@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Drum, Cpu, Music, Calendar, FolderGit2, Mail, Menu, X } from 'lucide-react';
+import { Drum, Cpu, Music, Calendar, FolderGit2, Briefcase, Mail, Menu, X, FileText } from 'lucide-react';
 import { siteConfig } from '../config/site.config';
 import { navigateToPersona } from './PersonaTransition';
 
@@ -20,8 +20,11 @@ export default function Nav() {
   }, [base]);
 
   const links = persona === 'music'
-    ? [{ name: navigation.music, href: `${base}/music/`, icon: Music }, { name: navigation.tour, href: `${base}/music/tour-dates/`, icon: Calendar }]
-    : [{ name: navigation.tech, href: `${base}/tech/`, icon: FolderGit2 }];
+    ? [{ name: navigation.music, href: `${base}/music/`, icon: Music }, { name: navigation.tour, href: `${base}/music/tour-dates/`, icon: Calendar }, { name: 'EPK', href: `${base}/music/epk/`, icon: FileText }]
+    : [
+        { name: navigation.techProjects, href: `${base}/tech/#projects`, icon: FolderGit2 },
+        { name: navigation.techExperience, href: `${base}/tech/#experience`, icon: Briefcase }
+      ];
   const allLinks = [...links, { name: navigation.contact, href: '#contact', icon: Mail }];
 
   const switcher = (mobile: boolean) => (

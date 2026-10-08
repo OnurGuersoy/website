@@ -26,7 +26,7 @@ const linkedIn = siteConfig.contact.socials.find((social) => social.label === 'L
     </div>
   </header>
   <main class="mx-auto max-w-6xl space-y-24 px-6 py-20 md:py-28">
-    <section aria-labelledby="experience-heading" class="grid gap-10 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-14">
+    <section id="experience" aria-labelledby="experience-heading" class="scroll-mt-28 grid gap-10 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-14">
       <div class="lg:sticky lg:top-28 lg:self-start">
         <p class="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200">{ai.eyebrow}</p>
         <h2 id="experience-heading" class="text-3xl font-semibold tracking-tight md:text-4xl">{ai.labels.experience}</h2>
@@ -53,7 +53,7 @@ const linkedIn = siteConfig.contact.socials.find((social) => social.label === 'L
         ))}
       </ol>
     </section>
-    <section aria-labelledby="projects-heading">
+    <section id="projects" aria-labelledby="projects-heading" class="scroll-mt-28">
       <SectionReveal client:visible><h2 id="projects-heading" class="mb-8 text-3xl font-semibold tracking-tight md:text-4xl">{ai.labels.featured}</h2></SectionReveal>
       <div class="grid gap-4 md:grid-cols-2">
         {featuredProjects.map((project) => (

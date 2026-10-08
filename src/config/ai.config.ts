@@ -4,7 +4,7 @@ export const aiConfig = {
   heading: 'AI Engineer',
   introduction: 'Building intelligent systems for real-world problems, from reinforcement learning in logistics to neural audio analysis.',
   labels: { featured: 'Featured projects', other: 'Other projects', experience: 'Professional experience', experienceIntro: 'Software engineering across logistics, event technology, legal tech, mobility and research.', problem: 'The problem', solution: 'The approach', connect: 'Find me online' },
-  skills: ['Python', 'PyTorch', 'TensorFlow', 'Scikit-learn', 'TypeScript', 'React', 'Angular', 'Node.js', 'Docker', 'Git', 'SQL', 'REST APIs', 'Reinforcement Learning', 'Computer Vision', 'NLP', 'LLMs'],
+  skills: ['Python', 'PyTorch', 'TensorFlow', 'Scikit-learn', 'TypeScript', 'React', 'Angular', 'Node.js', 'Docker', 'Git', 'SQL', 'REST APIs', 'Reinforcement Learning', 'NLP', 'LLMs', 'Realtime Simulation'],
   projects: [
     {
       title: 'Discrete-Event Simulation for Intermodal Rail Transshipment',
@@ -30,14 +30,6 @@ export const aiConfig = {
       techStack: ['Python', 'PyTorch', 'Hugging Face Transformers', 'LoRA', 'PEFT', 'Weights & Biases', 'Docker'],
       github: 'https://github.com/OnurGuersoy', featured: true,
     },
-    {
-      title: 'Real-Time Object Detection System',
-      description: 'Computer vision for real-time detection in industrial environments.',
-      problem: 'Industrial visual inspection needs fast and accurate detection with low latency.',
-      solution: 'Developed a YOLO-based detector with training and optimization for edge deployment.',
-      techStack: ['Python', 'TensorFlow', 'YOLO', 'OpenCV', 'TensorRT', 'Docker', 'ONNX'],
-      github: 'https://github.com/OnurGuersoy', featured: false,
-    },
   ],
   experiences: [
     {
@@ -55,39 +47,37 @@ export const aiConfig = {
       company: 'Event Inc Group',
       role: 'Software Engineer · Full-time',
       duration: 'Jun 2021 – Aug 2023',
-      techStack: ['React'],
+      techStack: ['React', 'NextJS', 'GraphQL', 'Ruby on Rails', 'Django', 'MariaDB', 'AWS'],
       highlights: [
-        'Developed React frontend features for an events platform.',
-        'Contributed to feature planning and architectural definition.',
-        'Implemented features based on the agreed architecture.',
+        'Woking on a productive webapplication with a revenue stream of over a million Euros a year. Working close to regular users to refine the product inside a SCRUM based process. Mostly developing new features in React and NextJS on frontend utilizing GraphQL, Ruby on Rails and MariaDB on backend.'
       ],
     },
     {
       company: 'Legal Analytics / Juracus',
       role: 'Full-stack Developer · Working student',
       duration: 'Oct 2020 – Apr 2021',
-      techStack: [],
-      highlights: ['Worked on full-stack development for a legal-technology platform.'],
+      techStack: ['AngularJS', 'Java Spring Boot', 'AWS'],
+      highlights: ['I was responsible for the real time webapplication frontend and backend using Angular and Spring Boot hosted on AWS Cloud and utilizing Websockets. Furthermore I developed and published a Typescript (legal-analytics-sdk on npm) and Java SDK (com.juracus.api on maven central) to access REST API services easily'],
     },
     {
       company: 'Movingdots GmbH',
       role: 'Full-stack Developer · Working student',
       duration: 'Feb 2020 – Sep 2020',
-      techStack: [],
-      highlights: ['Contributed to full-stack software development.'],
+      techStack: ['React', 'Azure', '.NET'],
+      highlights: ['Worked on user dashboards using React, Redux with Typscript and enhanced Microservice architectured Rest-Apis with .NET Core hosted on Azure Cloud.'],
     },
     {
       company: 'Audi AG / Audi Electronic Ventures GmbH',
       role: 'Mobile Software Developer · Internship',
       duration: 'Jun 2019 – Nov 2019',
-      techStack: [],
-      highlights: ['Developed mobile application software during an internship.'],
+      techStack: ['SwiftUI', 'Swift', 'UIKit'],
+      highlights: ['Development of iOS mobile applications with UIKit, SwiftUI, Combine. Using MVVM and MVC architectures and SOLID principles.'],
     },
     {
       company: 'CTS Eventim',
       role: 'Test Automation Engineer · Working student',
       duration: 'May 2018 – Jun 2019',
-      techStack: [],
+      techStack: ['AutoHotkey'],
       highlights: ['Worked on test automation for a ticketing platform.'],
     },
     {

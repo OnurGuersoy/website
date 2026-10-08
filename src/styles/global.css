@@ -1,4 +1,27 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .prose {
+    max-width: 100% !important;
+  }
+  .prose * {
+    color: black !important;
+  }
+  .prose h1, .prose h2, .prose h3 {
+    page-break-after: avoid;
+  }
+  .prose img {
+    page-break-inside: avoid;
+  }
+}
 
 @theme {
   --font-display: 'Playfair Display', Georgia, serif;
