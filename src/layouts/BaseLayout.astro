@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import { siteConfig } from '../config/site.config';
+import { musicConfig } from '../config/music.config';
 
 interface Props {
   title?: string;
@@ -9,12 +11,12 @@ interface Props {
 }
 
 const { 
-  title = 'Onur Gürsoy — Drummer & AI Engineer',
-  description = 'Professional Touring Drummer and AI/ML Engineer. Two worlds, one artist.',
+  title = siteConfig.title,
+  description = siteConfig.description,
   persona = 'music'
 } = Astro.props;
 
-const base = '/website';
+const base = siteConfig.base;
 ---
 
 <!doctype html>
@@ -25,24 +27,21 @@ const base = '/website';
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Preload hero images -->
-    <link rel="preload" as="image" href={`${base}/images/drumming-crowd-view.jpg`} />
+    <link rel="preload" as="image" href={musicConfig.heroImage} />
     
-    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet" />
     
     <title>{title}</title>
     
-    <script is:inline define:vars={{ persona }}>
+    <script is:inline define:vars={{ persona, base }}>
       const path = window.location.pathname;
       const saved = localStorage.getItem('persona');
-      document.documentElement.dataset.persona = path.startsWith('/website/tech/') ? 'tech'
-        : path.startsWith('/website/music/') ? 'music'
+      document.documentElement.dataset.persona = path.startsWith(`${base}/tech/`) ? 'tech'
+        : path.startsWith(`${base}/music/`) ? 'music'
         : saved === 'tech' ? 'tech' : persona;
     </script>
   </head>

@@ -8,15 +8,15 @@
   --color-music-surface: #141414;
   --color-music-fg: #f5f5f5;
   --color-music-fg-secondary: #a3a3a3;
-  --color-music-accent: #ff2d2d;
-  --color-music-accent-secondary: #ff6b35;
+  --color-music-accent: #df8c83;
+  --color-music-accent-secondary: #c57469;
 
-  --color-tech-bg: #0b1120;
-  --color-tech-surface: #111827;
+  --color-tech-bg: #0d1318;
+  --color-tech-surface: #152029;
   --color-tech-fg: #f8fafc;
   --color-tech-fg-secondary: #94a3b8;
-  --color-tech-accent: #00d4ff;
-  --color-tech-accent-secondary: #7c3aed;
+  --color-tech-accent: #82bcc9;
+  --color-tech-accent-secondary: #649eac;
 }
 
 :root,

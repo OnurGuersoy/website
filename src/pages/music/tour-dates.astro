@@ -3,87 +3,43 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.tsx';
 import SectionReveal from '../../components/SectionReveal.tsx';
 import GigCard from '../../components/GigCard.tsx';
-import { getCollection } from 'astro:content';
+import { siteConfig } from '../../config/site.config';
+import { musicConfig } from '../../config/music.config';
 
-const tour = [
-  ['2027-03-17', 'Saarbrücken', 'Garage'],
-  ['2027-03-18', 'Freiburg', 'Jazzhaus'],
-  ['2027-03-19', 'Nürnberg', 'Hirsch'],
-  ['2027-03-20', 'Fulda', 'Kreuz'],
-  ['2027-03-27', 'Hamburg', 'Große Freiheit 36'],
-  ['2027-04-02', 'Münster', 'Skaters Palace'],
-  ['2027-04-03', 'Wiesbaden', 'Schlachthof'],
-  ['2027-04-08', 'Wien', 'WUK'],
-  ['2027-04-09', 'Stuttgart', 'Im Wizemann Halle'],
-  ['2027-04-10', 'München', 'Backstage Werk'],
-  ['2027-04-11', 'Konstanz', 'Kulturladen'],
-  ['2027-04-15', 'Berlin', 'Huxleys'],
-  ['2027-04-16', 'Leipzig', 'Felsenkeller'],
-  ['2027-04-17', 'Kiel', 'Die Pumpe'],
-  ['2027-04-22', 'Oldenburg', 'Kulturetage'],
-  ['2027-04-23', 'Köln', 'Carlswerk Victoria'],
-  ['2027-04-24', 'Hannover', 'Capitol'],
-] as const;
-
-const gigs = (await getCollection('gigs'))
-  .filter((gig) => gig.data.band !== 'RAUM27')
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const music = musicConfig;
 const today = new Date().toISOString().slice(0, 10);
-const upcomingGigs = gigs.filter((gig) => gig.data.date.toISOString().slice(0, 10) >= today);
-const pastGigs = gigs.filter((gig) => gig.data.date.toISOString().slice(0, 10) < today);
+const upcomingGigs = music.pastShows.filter((gig) => gig.date >= today);
+const pastGigs = music.pastShows.filter((gig) => gig.date < today);
 const dateFormat = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
 ---
 
-<BaseLayout title="Tour Dates — Onur Gürsoy" persona="music">
+<BaseLayout title={`${music.tourAction} — ${siteConfig.name}`} persona="music">
   <Nav client:load />
-
-  <section class="pt-28 pb-20 max-w-4xl mx-auto px-6">
+  <section class="mx-auto max-w-4xl px-6 pt-28 pb-20">
     <SectionReveal client:visible>
-      <a href="/website/music/" class="text-red-300 hover:text-red-200 text-sm font-medium transition-colors mb-6 inline-block">← Back to Music</a>
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">Tour Dates & Shows</h1>
-      <p class="text-[var(--text-secondary)] text-lg mb-12">On the road and behind the kit.</p>
+      <a href={`${siteConfig.base}/music/`} class="mb-6 inline-block text-sm font-medium text-rose-200 hover:text-white">← {music.labels.back}</a>
+      <h1 class="mb-4 text-4xl font-semibold tracking-tight md:text-5xl">{music.tourAction}</h1>
+      <p class="mb-12 text-lg text-[var(--text-secondary)]">{music.availability}</p>
     </SectionReveal>
 
     <section class="mb-16" aria-labelledby="raum27-tour">
-      <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
-        <div>
-          <p class="text-red-300 text-xs font-semibold uppercase tracking-[0.2em] mb-2">17 dates · Germany & Austria</p>
-          <h2 id="raum27-tour" class="text-2xl md:text-3xl font-bold">RAUM27 · Spring 2027</h2>
-        </div>
-        <a href="https://reservix.de/tickets-raum27/t16741" target="_blank" rel="noopener noreferrer" class="inline-flex border-b border-red-400/60 pb-1 text-red-300 hover:text-red-200 text-sm font-medium">Tickets at Reservix ↗</a>
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div><p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-rose-200">{music.tourSubtitle}</p><h2 id="raum27-tour" class="text-2xl font-semibold md:text-3xl">{music.tourTitle}</h2></div>
+        <a href={music.ticketUrl} target="_blank" rel="noopener noreferrer" class="border-b border-rose-300/60 pb-1 text-sm font-medium text-rose-200 hover:text-white">{music.ticketsLabel} ↗</a>
       </div>
       <ol class="divide-y divide-white/10 border-y border-white/10">
-        {tour.map(([date, city, venue]) => (
-          <li class="grid grid-cols-[5.5rem_1fr] sm:grid-cols-[8rem_1fr_1fr] gap-3 sm:gap-5 items-baseline py-4">
-            <time datetime={date} class="text-sm text-red-200 tabular-nums">{dateFormat.format(new Date(`${date}T00:00:00Z`))}</time>
-            <span class="font-semibold text-white">{city}</span>
-            <span class="col-start-2 sm:col-start-auto text-sm text-[var(--text-secondary)]">{venue}</span>
+        {music.tour.map((show) => (
+          <li class="grid grid-cols-[6rem_1fr] items-baseline gap-3 py-4 sm:grid-cols-[8rem_1fr_1fr] sm:gap-5">
+            <time datetime={show.date} class="text-sm tabular-nums text-rose-200">{dateFormat.format(new Date(`${show.date}T00:00:00Z`))}</time>
+            <span class="font-semibold text-white">{show.city}</span>
+            <span class="col-start-2 text-sm text-[var(--text-secondary)] sm:col-start-auto">{show.venue}</span>
           </li>
         ))}
       </ol>
-      <p class="mt-4 text-xs text-[var(--text-secondary)]">Dates and venues: <a href="https://www.reservix.net/presse/raum27-kuendigen-groesste-tour-ihrer-karriere-an/" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-white">Reservix tour announcement</a>. Check the ticket page for availability.</p>
+      <p class="mt-4 text-xs text-[var(--text-secondary)]"><a href={music.tourSource} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-white">{music.labels.source}</a></p>
     </section>
 
-    {upcomingGigs.length > 0 && (
-      <section class="mb-16">
-        <h2 class="text-2xl font-bold mb-8">Other upcoming shows</h2>
-        <div class="space-y-4">
-          {upcomingGigs.map((gig) => (
-            <GigCard client:visible title={gig.data.title} band={gig.data.band} role={gig.data.role} date={gig.data.date.toISOString()} venue={gig.data.venue} city={gig.data.city} description={gig.data.description} videoUrl={gig.data.videoUrl} image={gig.data.image} isUpcoming={true} isFeatured={gig.data.isFeatured} />
-          ))}
-        </div>
-      </section>
-    )}
-
-    {pastGigs.length > 0 && (
-      <section>
-        <h2 class="text-2xl font-bold mb-8 text-[var(--text-secondary)]">Past shows & sessions</h2>
-        <div class="space-y-4">
-          {pastGigs.map((gig) => (
-            <GigCard client:visible title={gig.data.title} band={gig.data.band} role={gig.data.role} date={gig.data.date.toISOString()} venue={gig.data.venue} city={gig.data.city} description={gig.data.description} videoUrl={gig.data.videoUrl} image={gig.data.image} isUpcoming={false} isFeatured={gig.data.isFeatured} />
-          ))}
-        </div>
-      </section>
-    )}
+    {upcomingGigs.length > 0 && <section class="mb-16"><h2 class="mb-8 text-2xl font-semibold">{music.labels.upcoming}</h2><div class="space-y-4">{upcomingGigs.map((gig) => <GigCard client:visible title={gig.title} band={gig.band} role={gig.role} date={`${gig.date}T00:00:00Z`} venue={gig.venue} city={gig.city} description={gig.description} videoUrl={gig.videoUrl} image={gig.image} isUpcoming={true} />)}</div></section>}
+    {pastGigs.length > 0 && <section><h2 class="mb-8 text-2xl font-semibold">{music.labels.past}</h2><div class="space-y-4">{pastGigs.map((gig) => <GigCard client:visible title={gig.title} band={gig.band} role={gig.role} date={`${gig.date}T00:00:00Z`} venue={gig.venue} city={gig.city} description={gig.description} videoUrl={gig.videoUrl} image={gig.image} isUpcoming={false} />)}</div></section>}
   </section>
 </BaseLayout>

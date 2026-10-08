@@ -1,171 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Drum, Cpu, Music, Calendar, FolderGit2, Mail, Menu, X } from 'lucide-react';
+import { siteConfig } from '../config/site.config';
+import { navigateToPersona } from './PersonaTransition';
 
 type Persona = 'music' | 'tech';
 
 export default function Nav() {
   const [persona, setPersona] = useState<Persona>('music');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { base, name, navigation } = siteConfig;
 
   useEffect(() => {
-    const current = window.location.pathname.startsWith('/website/tech/') ? 'tech'
-      : window.location.pathname.startsWith('/website/music/') ? 'music'
+    const current = window.location.pathname.startsWith(`${base}/tech/`) ? 'tech'
+      : window.location.pathname.startsWith(`${base}/music/`) ? 'music'
       : localStorage.getItem('persona') === 'tech' ? 'tech' : 'music';
     setPersona(current);
     document.documentElement.dataset.persona = current;
-  }, []);
+  }, [base]);
 
-  const handleToggle = (newPersona: Persona) => {
-    localStorage.setItem('persona', newPersona);
-    window.location.assign(`/website/${newPersona}/`);
-  };
+  const links = persona === 'music'
+    ? [{ name: navigation.music, href: `${base}/music/`, icon: Music }, { name: navigation.tour, href: `${base}/music/tour-dates/`, icon: Calendar }]
+    : [{ name: navigation.tech, href: `${base}/tech/`, icon: FolderGit2 }];
+  const allLinks = [...links, { name: navigation.contact, href: '#contact', icon: Mail }];
 
-  const navLinks = persona === 'music' 
-    ? [
-        { name: 'Music', href: '/website/music/', icon: Music },
-        { name: 'Tour Dates', href: '/website/music/tour-dates/', icon: Calendar },
-      ]
-    : [
-        { name: 'Projects', href: '/website/tech/', icon: FolderGit2 },
-      ];
-
-  const commonLinks = [
-    { name: 'Contact', href: '#contact', icon: Mail }
-  ];
-
-  const allLinks = [...navLinks, ...commonLinks];
+  const switcher = (mobile: boolean) => (
+    <div className="relative flex items-center rounded-full border border-white/15 bg-black/40 p-1">
+      {(['music', 'tech'] as const).map((side) => {
+        const Icon = side === 'music' ? Drum : Cpu;
+        return (
+          <button
+            key={side}
+            type="button"
+            aria-pressed={persona === side}
+            onClick={() => navigateToPersona(side)}
+            className={`relative z-10 flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium transition-colors sm:px-4 ${persona === side ? 'text-[#151515]' : 'text-white/65 hover:text-white'}`}
+          >
+            {persona === side && (
+              <motion.span
+                layoutId={mobile ? 'mobile-persona' : 'desktop-persona'}
+                className={`absolute inset-0 -z-10 rounded-full ${side === 'music' ? 'bg-[#df8c83]' : 'bg-[#82bcc9]'}`}
+                transition={{ type: 'spring', stiffness: 340, damping: 32 }}
+              />
+            )}
+            <Icon size={15} aria-hidden="true" />
+            {side === 'music' ? navigation.musicPersona : navigation.techPersona}
+          </button>
+        );
+      })}
+    </div>
+  );
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/40 border-b border-white/10 transition-colors duration-500">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <a href="/website/" className="text-white font-bold text-xl tracking-widest hover:text-gray-300 transition-colors">
-              ONUR GÜRSOY
-            </a>
-          </div>
-
-          {/* Center Toggle */}
-          <div className="hidden md:flex flex-1 justify-center">
-            <div className="relative flex items-center p-1 bg-black/50 rounded-full border border-white/10 overflow-hidden">
-              <button
-                onClick={() => handleToggle('music')}
-                className={`relative z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ${persona === 'music' ? 'text-black' : 'text-gray-400 hover:text-white'}`}
-              >
-                <Drum size={16} />
-                <span>DRUMMER</span>
-              </button>
-              <button
-                onClick={() => handleToggle('tech')}
-                className={`relative z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ${persona === 'tech' ? 'text-black' : 'text-gray-400 hover:text-white'}`}
-              >
-                <Cpu size={16} />
-                <span>AI ENGINEER</span>
-              </button>
-
-              <motion.div
-                className={`absolute inset-y-1 rounded-full ${persona === 'music' ? 'bg-[#df8c83]' : 'bg-[#82bcc9]'}`}
-                layoutId="nav-toggle-bg"
-                initial={false}
-                animate={{
-                  left: persona === 'music' ? '0.25rem' : '50%',
-                  right: persona === 'music' ? '50%' : '0.25rem'
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              />
-            </div>
-          </div>
-
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center space-x-8">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0c0d0f]/90 backdrop-blur-lg" aria-label="Primary navigation">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between gap-4">
+          <a href={`${base}/`} className="shrink-0 text-base font-semibold uppercase tracking-[0.14em] text-white hover:text-white/75 sm:text-lg">{name}</a>
+          <div className="hidden flex-1 justify-center lg:flex">{switcher(false)}</div>
+          <div className="hidden items-center gap-5 lg:gap-7 lg:flex">
             {allLinks.map((link) => {
               const Icon = link.icon;
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors text-sm font-medium"
-                >
-                  <Icon size={16} />
-                  {link.name}
-                </a>
-              );
+              return <a key={link.name} href={link.href} className="flex items-center gap-1.5 whitespace-nowrap text-xs font-medium text-white/65 transition-colors hover:text-white lg:text-sm"><Icon size={15} aria-hidden="true" />{link.name}</a>;
             })}
           </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={mobileMenuOpen}
-              className="text-gray-400 hover:text-white p-2"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          <button type="button" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'} className="p-2 text-white/70 hover:text-white lg:hidden">
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="md:hidden bg-black/90 backdrop-blur-xl border-b border-white/10 overflow-hidden"
-          >
-            <div className="px-4 pt-2 pb-6 space-y-6">
-              {/* Mobile Toggle */}
-              <div className="flex justify-center pt-4">
-                <div className="relative flex items-center p-1 bg-white/5 rounded-full border border-white/10">
-                  <button
-                    onClick={() => handleToggle('music')}
-                    className={`relative z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ${persona === 'music' ? 'text-black' : 'text-gray-400'}`}
-                  >
-                    <Drum size={16} />
-                    DRUMMER
-                  </button>
-                  <button
-                    onClick={() => handleToggle('tech')}
-                    className={`relative z-10 flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full transition-colors ${persona === 'tech' ? 'text-black' : 'text-gray-400'}`}
-                  >
-                    <Cpu size={16} />
-                    AI ENGINEER
-                  </button>
-                  <motion.div
-                    className={`absolute inset-y-1 rounded-full ${persona === 'music' ? 'bg-[#df8c83]' : 'bg-[#82bcc9]'}`}
-                    layoutId="mobile-nav-toggle-bg"
-                    initial={false}
-                    animate={{
-                      left: persona === 'music' ? '0.25rem' : '50%',
-                      right: persona === 'music' ? '50%' : '0.25rem'
-                    }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  />
-                </div>
-              </div>
-
-              {/* Mobile Links */}
-              <div className="space-y-1">
-                {allLinks.map((link) => {
-                  const Icon = link.icon;
-                  return (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="flex items-center gap-3 px-4 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      <Icon size={20} className={persona === 'music' ? 'text-red-400' : 'text-cyan-400'} />
-                      {link.name}
-                    </a>
-                  );
-                })}
-              </div>
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden border-t border-white/10 bg-[#0c0d0f] lg:hidden">
+            <div className="flex flex-col gap-4 px-5 py-6">
+              <div className="flex justify-center">{switcher(true)}</div>
+              {allLinks.map((link) => {
+                const Icon = link.icon;
+                return <a key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/75 hover:bg-white/5 hover:text-white"><Icon size={17} aria-hidden="true" />{link.name}</a>;
+              })}
             </div>
           </motion.div>
         )}
