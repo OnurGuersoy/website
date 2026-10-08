@@ -105,7 +105,12 @@ const formatDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day: '2-
     </section>
 
     <section aria-labelledby="gallery-heading">
-      <SectionReveal client:visible><h2 id="gallery-heading" class="mb-8 text-3xl font-semibold tracking-tight">{music.labels.gallery}</h2></SectionReveal>
+      <SectionReveal client:visible>
+        <div class="mb-8 flex flex-wrap items-baseline justify-between gap-4 border-b border-white/10 pb-4">
+          <h2 id="gallery-heading" class="text-3xl font-semibold tracking-tight">{music.labels.gallery}</h2>
+          {music.photoCredit && <p class="text-sm font-medium text-white/50">{music.photoCredit}</p>}
+        </div>
+      </SectionReveal>
       <div class="grid grid-cols-2 gap-3 md:grid-cols-4">
         {music.gallery.map((photo) => (
           <div class="aspect-square overflow-hidden rounded-lg bg-white/5"><img src={photo.src} alt={photo.alt} class="h-full w-full object-cover grayscale transition-[filter,transform] duration-500 hover:scale-[1.03] hover:grayscale-0" loading="lazy" /></div>

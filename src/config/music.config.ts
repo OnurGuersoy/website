@@ -4,6 +4,7 @@ export const musicConfig = {
   introduction: 'Live drums for RAUM27 and Chaos und Liebe. Substitute drummer for Remote Bondage and Vladi Wostock.',
   heroImage: '/website/images/IMG_0019.JPG',
   labels: { gallery: 'On stage', videos: 'Watch & listen', acts: 'Associated acts', credits: 'Selected recording credits', equipment: 'Live & studio setup', back: 'Back to music', source: 'Dates and venues: Reservix tour announcement. Check the ticket page for availability.' },
+  photoCredit: 'Photography by Christian Wasenmüller',
   availability: 'Available for touring, session work and remote recording.',
   tourTitle: 'RAUM27 · Spring 2027',
   tourSubtitle: '17 dates · Germany & Austria',
