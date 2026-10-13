@@ -1,7 +1,7 @@
 export const musicConfig = {
   title: 'Onur Gürsoy — Drummer',
   eyebrow: 'Touring / session drummer',
-  introduction: 'Live drums for RAUM27 and Chaos und Liebe. Substitute drummer for Remote Bondage and Vladi Wostock.',
+  introduction: 'Live drums for RAUM27 and Chaos und Liebe. I love to express and create music, possibly with you?',
   heroImage: '/website/images/IMG_0019.JPG',
   labels: { gallery: 'On stage', videos: 'Watch & listen', acts: 'Associated acts', credits: 'Selected recording credits', equipment: 'Live & studio setup', back: 'Back to music', source: 'Dates and venues: Reservix tour announcement. Check the ticket page for availability.' },
   photoCredit: 'Photography by Christian Wasenmüller',
