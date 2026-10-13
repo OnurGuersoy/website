@@ -4,7 +4,7 @@ band: "Nils Wandrey"
 role: "Session Drummer"
 date: 2026-03-15
 venue: "Studio Session"
-city: "Hamburg"
+city: "Bremerhaven"
 description: "Drum tracking for Nils Wandrey's solo project. Focused on nuanced, dynamic playing that serves the song."
 isFeatured: false
 isUpcoming: false
